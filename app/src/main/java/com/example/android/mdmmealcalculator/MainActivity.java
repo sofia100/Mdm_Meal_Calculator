@@ -24,7 +24,8 @@ Button update,ok_amt,ok_budget;
 EditText students, add_amt_text, add_bdgt_text;
     FirebaseDatabase database;
     DatabaseReference refAmount, refBudget;
-
+double unit_budget=6.83;
+double unit_amount = 0.15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,11 +106,42 @@ EditText students, add_amt_text, add_bdgt_text;
             }
         });
 
+
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("MainActivity","here!!");
+                int n ;
+                if(students.getText().toString().equals(""))
+                    n=0;
+                else
+                    n= Integer.valueOf(students.getText().toString());
+
+                Log.d("update", "here ert");
+//                caln haba amt n budget n upload
+
+                String s= budget.getText().toString();
+                int x = Integer.valueOf(s);
+                Log.d("update", "here ert2" + x);
+
+                s= amount.getText().toString();
+                int y = Integer.valueOf(s);
+                Log.d("update", "here ert2 budget" + y);
+
+                double new_amount = y - unit_amount*n;
+                double new_budget = x- unit_budget*n;
+                Log.d("update", "here ert9");
+
+
+                refBudget.setValue(new_budget);
+                Log.d("update", "here ert0");
+
+                refAmount.setValue(new_amount);
+                Log.d("update", "here ert99");
+
                 updateValues();
+                Log.d("update", "here ert77");
+
             }
         }
         );
