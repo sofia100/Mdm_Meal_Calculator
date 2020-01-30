@@ -64,9 +64,9 @@ double unit_amount = 0.15;
                         //extract from edittext n upload to db added value n gone visibility
 
                         String s= add_amt_text.getText().toString();
-                        int x = Integer.valueOf(s);
+                        double x = Double.valueOf(s);
 
-                        int total = Integer.valueOf(amount.getText().toString())+x;
+                        Double total = Double.valueOf(amount.getText().toString())+x;
 
                         refAmount.setValue(total);
                         updateValues();
@@ -92,9 +92,9 @@ double unit_amount = 0.15;
                     public void onClick(View view) {
                         //extract from edittext n upload to db added value n gone visibility
                         String s= add_bdgt_text.getText().toString();
-                        int x = Integer.valueOf(s);
+                        double x = Double.valueOf(s);
 
-                        int total = Integer.valueOf(budget.getText().toString())+x;
+                        double total = Double.valueOf(budget.getText().toString())+x;
 
                         refBudget.setValue(total);
                         updateValues();
@@ -121,11 +121,11 @@ double unit_amount = 0.15;
 //                caln haba amt n budget n upload
 
                 String s= budget.getText().toString();
-                int x = Integer.valueOf(s);
+                double x = Double.valueOf(s);
                 Log.d("update", "here ert2" + x);
 
                 s= amount.getText().toString();
-                int y = Integer.valueOf(s);
+                double y = Double.valueOf(s);
                 Log.d("update", "here ert2 budget" + y);
 
                 double new_amount = y - unit_amount*n;
@@ -157,7 +157,7 @@ double unit_amount = 0.15;
                 // whenever data at this location is updated.
 
                 Log.d("MainActivity","here!! jkl");
-                int value = dataSnapshot.getValue(int.class);
+                double value = dataSnapshot.getValue(double.class);
                 Log.d("MainActivity","here!!2000 jkl");
                 amount.setText(String.valueOf(value));
                 Log.d("MainActivity","here!!7000 jkl");
@@ -178,7 +178,7 @@ double unit_amount = 0.15;
                 // whenever data at this location is updated.
 
                 Log.d("MainActivity","here!! mlp");
-                int value = dataSnapshot.getValue(int.class);
+                double value = dataSnapshot.getValue(double.class);
                 budget.setText(String.valueOf(value));
                 // Log.d(TAG, "Value is: " + value);
             }
