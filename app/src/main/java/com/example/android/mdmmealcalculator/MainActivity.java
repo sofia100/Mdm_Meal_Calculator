@@ -37,6 +37,7 @@ EditText students, add_amt_text, add_bdgt_text;
     DatabaseReference refAmount, refBudget,refCummu, refRow;
 double unit_budget=6.83;
 double unit_amount = 0.15;
+    StringBuilder data ;
 Row row;
     private TextView dateTimeDisplay;
     private Calendar calendar;
@@ -48,6 +49,7 @@ Row row;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        data= new StringBuilder();
 
         export=findViewById(R.id.export);
         amount = findViewById(R.id.amt);
@@ -63,8 +65,6 @@ Row row;
         cummu = findViewById(R.id.cummu);
 
         row = new Row();
-        calendar = Calendar.getInstance();
-
 
         database = FirebaseDatabase.getInstance();
         refAmount = database.getReference("amount");
@@ -73,8 +73,6 @@ Row row;
         refCummu=database.getReference("Cummulative Meal");
 
         updateValues();
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        //date = dateFormat.format(calendar.getTime());
 
 
 
@@ -100,7 +98,6 @@ Row row;
                         add_amt_text.setVisibility(View.GONE);
                         ok_amt.setVisibility(View.GONE);
 
-
                     }
                 });
             }
@@ -111,8 +108,6 @@ Row row;
             public void onClick(View view) {
                 add_bdgt_text.setVisibility(View.VISIBLE);
                 ok_budget.setVisibility(View.VISIBLE);
-
-
                 ok_budget.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -139,6 +134,8 @@ Row row;
                 exportcsv();
             }
         });
+
+
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,8 +169,6 @@ Row row;
 
                 row.setBudget(new_budget);
                 row.setAmount(new_amount);
-                SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
-               // String currentDateandTime = sdf.format(new Date());
                 row.setDate(new Date());
                 double c = Double.valueOf( cummu.getText().toString());
 
@@ -196,21 +191,50 @@ Row row;
 
     private void exportcsv() {
             //generate data
-            StringBuilder data = new StringBuilder();
-            data.append("Time,Distance");
-            for(int i = 0; i<5; i++){
+
+            data.append("Date,No.of Beneficiaries,Cumulative No.of Meals,Food Grain left, Funds left");
+
+            /*for(int i = 0; i<5; i++){
                 data.append("\n"+String.valueOf(i)+","+String.valueOf(i*i));
             }
+*/
+        refRow.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
 
-            try{
+                Log.d("data export","here!! export");
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Log.d("data export","here!! export");
+
+                    Row value = postSnapshot.getValue(Row.class);
+                    Log.d("data export","here!! export");
+
+                    data.append("\n" + String.valueOf(value.getDate()) + "," + String.valueOf(value.getStudents()) + ","
+                            + String.valueOf(value.getCummulative()) + "," + String.valueOf(value.getAmount()) + "," +
+                            String.valueOf(value.getBudget()));
+                    Log.d("data export",data.toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.d("mainActivity", "Failed to read budget.", error.toException());
+            }
+        });
+
+
+        try{
                 //saving the file into device
-                FileOutputStream out = openFileOutput("data.csv", Context.MODE_PRIVATE);
+                FileOutputStream out = openFileOutput("mdm_meal.csv", Context.MODE_PRIVATE);
                 out.write((data.toString()).getBytes());
                 out.close();
 
                 //exporting
                 Context context = getApplicationContext();
-                File filelocation = new File(getFilesDir(), "data.csv");
+                File filelocation = new File(getFilesDir(), "mdm_meal.csv");
                 Uri path = FileProvider.getUriForFile(context, "com.example.exportcsv.fileprovider", filelocation);
                 Intent fileIntent = new Intent(Intent.ACTION_SEND);
                 fileIntent.setType("text/csv");
