@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+    <TextView
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/total_amount_of_rice_kg"
+        android:textSize="25sp"
+        android:id="@+id/amt_textview"
+        android:textStyle="bold"
+        android:textColor="#70f"
+        android:clickable="false"
+        />
+
+        <TextView
+            android:layout_below="@id/amt_textview"
+            android:id="@+id/amt"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="xx"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amt_textview"
+            android:padding="15dp"
+            android:layout_margin="15dp"
+            android:id="@+id/add_amount"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_edit"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amt"
+            android:id="@+id/add_amount_edit"
+            android:hint="Add Amount of Rice"
+            android:visibility="gone"
+
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ok"
+            android:id="@+id/ok_amt"
+            android:layout_below="@id/add_amount"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+
+            />
+
+        <TextView
+
+            android:id="@+id/budget_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:padding="15dp"
+            android:layout_below="@id/add_amount_edit"
+            android:text="Total Budget of Rice (Rs): "
+            android:textColor="#70f"
+            android:textSize="25dp"
+            android:textStyle="bold" />
+        <TextView
+
+            android:padding="15dp"
+            android:layout_below="@id/budget_textview"
+            android:id="@+id/budget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="yy"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/budget_textview"
+            android:padding="15dp"
+            android:layout_margin="15dp"
+            android:id="@+id/add_budget"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_edit"
+            />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/budget"
+            android:id="@+id/add_budget_edit"
+            android:hint="Add Budget of Rice"
+            android:visibility="gone"
+
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ok"
+            android:id="@+id/ok_budget"
+            android:layout_below="@id/add_budget"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"
+
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENTER NO.of students :"
+            android:layout_below="@id/add_budget_edit"
+            android:padding="15dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            android:id="@+id/no_of_students_textview"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="NUMBER OF STUDENTS"
+            android:padding="15dp"
+            android:id="@+id/no_of_students_editview"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            android:layout_below="@id/no_of_students_textview"
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update!!"
+            android:layout_below="@id/no_of_students_editview"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/update"
+
+            />
+
+    </RelativeLayout>
+
+</ScrollView>

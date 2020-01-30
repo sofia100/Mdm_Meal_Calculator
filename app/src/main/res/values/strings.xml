@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Mdm Meal Calculator</string>
+    <string name="total_amount_of_rice_kg">Total amount of Rice (KG):</string>
+</resources>

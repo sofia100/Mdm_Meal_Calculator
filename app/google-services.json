@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "665974005929",
+    "firebase_url": "https://mdm-meal-calculator.firebaseio.com",
+    "project_id": "mdm-meal-calculator",
+    "storage_bucket": "mdm-meal-calculator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665974005929:android:b2c3be8414ba032ed149b8",
+        "android_client_info": {
+          "package_name": "com.example.android.mdmmealcalculator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665974005929-hrg4e4af2sv0j2skmp45luhnabsv1v1i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.android.mdmmealcalculator",
+            "certificate_hash": "4923ffaed5c54726b57f5c7482d7e2056faf0ea3"
+          }
+        },
+        {
+          "client_id": "665974005929-r032cpvbvfssajnv4nb488c1jnpcoaoo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSd5Dbz4o7wkDATEmySdyRyedxWDRRJGM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665974005929-r032cpvbvfssajnv4nb488c1jnpcoaoo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
