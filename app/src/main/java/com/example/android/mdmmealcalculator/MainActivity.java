@@ -1,7 +1,12 @@
 package com.example.android.mdmmealcalculator;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -15,17 +20,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
 
-TextView amount, budget;
+TextView amount, budget,cummu;
 ImageButton add_amount, add_budget;
-Button update,ok_amt,ok_budget;
+Button update,ok_amt,ok_budget,export;
 EditText students, add_amt_text, add_bdgt_text;
     FirebaseDatabase database;
-    DatabaseReference refAmount, refBudget;
+    DatabaseReference refAmount, refBudget,refCummu, refRow;
 double unit_budget=6.83;
 double unit_amount = 0.15;
+Row row;
+    private TextView dateTimeDisplay;
+    private Calendar calendar;
+    private SimpleDateFormat dateFormat;
+    private Date date;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +49,7 @@ double unit_amount = 0.15;
         setContentView(R.layout.activity_main);
 
 
+        export=findViewById(R.id.export);
         amount = findViewById(R.id.amt);
         budget = findViewById(R.id.budget);
         add_amount = findViewById(R.id.add_amount);
@@ -43,21 +60,30 @@ double unit_amount = 0.15;
         add_bdgt_text=findViewById(R.id.add_budget_edit);
         ok_amt=findViewById(R.id.ok_amt);
         ok_budget=findViewById(R.id.ok_budget);
+        cummu = findViewById(R.id.cummu);
+
+        row = new Row();
+        calendar = Calendar.getInstance();
 
 
         database = FirebaseDatabase.getInstance();
         refAmount = database.getReference("amount");
         refBudget = database.getReference("budget");
+        refRow= database.getReference("Row");
+        refCummu=database.getReference("Cummulative Meal");
 
         updateValues();
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        //date = dateFormat.format(calendar.getTime());
+
+
 
         add_amount.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 add_amt_text.setVisibility(View.VISIBLE);
                 ok_amt.setVisibility(View.VISIBLE);
-
-
                 ok_amt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -71,8 +97,8 @@ double unit_amount = 0.15;
                         refAmount.setValue(total);
                         updateValues();
 
-                        add_amt_text.setVisibility(View.INVISIBLE);
-                        ok_amt.setVisibility(View.INVISIBLE);
+                        add_amt_text.setVisibility(View.GONE);
+                        ok_amt.setVisibility(View.GONE);
 
 
                     }
@@ -99,14 +125,20 @@ double unit_amount = 0.15;
                         refBudget.setValue(total);
                         updateValues();
 
-                        add_bdgt_text.setVisibility(View.INVISIBLE);
-                        ok_budget.setVisibility(View.INVISIBLE);
+                        add_bdgt_text.setVisibility(View.GONE);
+                        ok_budget.setVisibility(View.GONE);
                     }
                 });
             }
         });
 
 
+        export.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                exportcsv();
+            }
+        });
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,6 +148,8 @@ double unit_amount = 0.15;
                     n=0;
                 else
                     n= Integer.valueOf(students.getText().toString());
+
+                row.setStudents(n);
 
                 Log.d("update", "here ert");
 //                caln haba amt n budget n upload
@@ -136,9 +170,21 @@ double unit_amount = 0.15;
                 refBudget.setValue(new_budget);
                 Log.d("update", "here ert0");
 
+                row.setBudget(new_budget);
+                row.setAmount(new_amount);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy");
+               // String currentDateandTime = sdf.format(new Date());
+                row.setDate(new Date());
+                double c = Double.valueOf( cummu.getText().toString());
+
+                c+=n;
+                row.setCummulative(c);
+                refCummu.setValue(c);
+
                 refAmount.setValue(new_amount);
                 Log.d("update", "here ert99");
 
+                refRow.push().setValue(row);
                 updateValues();
                 Log.d("update", "here ert77");
 
@@ -147,6 +193,38 @@ double unit_amount = 0.15;
         );
 
     }
+
+    private void exportcsv() {
+            //generate data
+            StringBuilder data = new StringBuilder();
+            data.append("Time,Distance");
+            for(int i = 0; i<5; i++){
+                data.append("\n"+String.valueOf(i)+","+String.valueOf(i*i));
+            }
+
+            try{
+                //saving the file into device
+                FileOutputStream out = openFileOutput("data.csv", Context.MODE_PRIVATE);
+                out.write((data.toString()).getBytes());
+                out.close();
+
+                //exporting
+                Context context = getApplicationContext();
+                File filelocation = new File(getFilesDir(), "data.csv");
+                Uri path = FileProvider.getUriForFile(context, "com.example.exportcsv.fileprovider", filelocation);
+                Intent fileIntent = new Intent(Intent.ACTION_SEND);
+                fileIntent.setType("text/csv");
+                fileIntent.putExtra(Intent.EXTRA_SUBJECT, "Data");
+                fileIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                fileIntent.putExtra(Intent.EXTRA_STREAM, path);
+                startActivity(Intent.createChooser(fileIntent, "Send mail"));
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+
+
+            }
 
     private void updateValues() {
 
@@ -189,6 +267,26 @@ double unit_amount = 0.15;
                 Log.d("mainActivity", "Failed to read budget.", error.toException());
             }
         });
+
+        refCummu.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
+
+                Log.d("MainActivity","here!! mlp");
+                double value = dataSnapshot.getValue(double.class);
+                cummu.setText(String.valueOf(value));
+                // Log.d(TAG, "Value is: " + value);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.d("mainActivity", "Failed to read budget.", error.toException());
+            }
+        });
+
 
 
     }

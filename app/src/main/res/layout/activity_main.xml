@@ -36,10 +36,21 @@
             android:layout_below="@id/amt_textview"
             android:padding="15dp"
             android:layout_margin="15dp"
+            android:id="@+id/minus_amount"
+            android:layout_toLeftOf="@id/add_amount"
+            android:src="@drawable/ic_edit_minus"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/amt_textview"
+            android:padding="15dp"
+            android:layout_margin="15dp"
             android:id="@+id/add_amount"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_edit"
             />
+
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -92,6 +103,16 @@
             android:layout_below="@id/budget_textview"
             android:padding="15dp"
             android:layout_margin="15dp"
+            android:id="@+id/minus_budget"
+            android:layout_toLeftOf="@id/add_budget"
+            android:src="@drawable/ic_edit_minus"
+            />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/budget_textview"
+            android:padding="15dp"
+            android:layout_margin="15dp"
             android:id="@+id/add_budget"
             android:layout_alignParentRight="true"
             android:src="@drawable/ic_edit"
@@ -119,12 +140,23 @@
 
             />
 
+        <TextView
 
+            android:padding="15dp"
+            android:layout_below="@id/add_budget_edit"
+            android:id="@+id/cummu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="cummu"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ENTER NO.of students :"
-            android:layout_below="@id/add_budget_edit"
+            android:layout_below="@id/cummu"
             android:padding="15dp"
             android:textSize="25sp"
             android:textStyle="bold"
@@ -154,6 +186,17 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:id="@+id/update"
+
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Export"
+            android:layout_below="@id/update"
+            android:layout_centerHorizontal="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:id="@+id/export"
 
             />
 
