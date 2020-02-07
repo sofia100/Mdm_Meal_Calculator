@@ -31,7 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements Dialog.DialogListener {
 
 
 TextView amount, budget,cummu;
@@ -52,9 +52,13 @@ Row row;
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.set_amount:
                 //dialog or intent
+                Dialog dialog= new Dialog();
+                dialog.show(getSupportFragmentManager(),"dialog");
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.set_price:
+                Dialog dialog2= new Dialog();
+                dialog2.show(getSupportFragmentManager(),"dialog");
 
                 return true;
             //       return true;
@@ -342,8 +346,6 @@ Row row;
 
     private void updateValues() {
 
-        unit_amount=Double.parseDouble(e1.getText().toString());
-        unit_budget=Double.parseDouble(e2.getText().toString());
 
         refAmount.addValueEventListener(new ValueEventListener() {
             @Override
@@ -409,4 +411,13 @@ Row row;
     }
 
 
+    @Override
+    public void applyText(String value) {
+        e1.setText(value);
+        unit_amount=Double.parseDouble(e1.getText().toString());
+
+        e2.setText(value);
+        unit_budget=Double.parseDouble(e2.getText().toString());
+
+    }
 }
