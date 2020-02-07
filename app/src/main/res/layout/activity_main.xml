@@ -228,10 +228,9 @@
         <EditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.150"
             android:padding="15dp"
             android:id="@+id/amt_pp_edit"
-            android:inputType="number"
+            android:inputType="none"
             android:textSize="30sp"
             android:textStyle="bold"
             android:textColor="#70f"

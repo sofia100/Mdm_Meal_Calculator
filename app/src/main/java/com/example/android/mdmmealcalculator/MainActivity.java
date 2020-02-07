@@ -40,8 +40,8 @@ Button update,ok_amt,ok_budget,export;
 EditText e1,e2,students, add_amt_text, add_bdgt_text;
     FirebaseDatabase database;
     DatabaseReference refAmount, refBudget,refCummu, refRow;
-double unit_budget;
-double unit_amount;
+double unit_budget=6.83;
+double unit_amount= 0.150 ;
     StringBuilder data ;
 Row row;
 
@@ -412,11 +412,11 @@ Row row;
 
 
     @Override
-    public void applyText(String value) {
-        e1.setText(value);
+    public void applyText(String unit_amt, String unit_prc) {
+        e1.setText(unit_amt);
         unit_amount=Double.parseDouble(e1.getText().toString());
 
-        e2.setText(value);
+        e2.setText(unit_prc);
         unit_budget=Double.parseDouble(e2.getText().toString());
 
     }
