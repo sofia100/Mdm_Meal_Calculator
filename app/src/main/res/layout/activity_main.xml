@@ -57,7 +57,7 @@
             android:layout_below="@id/amt"
             android:inputType="numberDecimal"
             android:id="@+id/add_amount_edit"
-            android:hint="Add Amount of Rice"
+            android:hint="Amount of Rice"
             android:visibility="gone"
 
 
@@ -124,7 +124,7 @@
             android:layout_below="@id/budget"
             android:id="@+id/add_budget_edit"
             android:inputType="numberDecimal"
-            android:hint="Add Budget of Rice"
+            android:hint="Budget of Rice"
             android:visibility="gone"
 
 
@@ -139,11 +139,23 @@
             android:visibility="gone"
 
             />
+        <TextView
+
+            android:id="@+id/cummulative_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:padding="15dp"
+            android:layout_below="@id/add_budget_edit"
+            android:text="Cummulative of students: "
+            android:textColor="#70f"
+            android:textSize="25dp"
+            android:textStyle="bold" />
 
         <TextView
 
             android:padding="15dp"
-            android:layout_below="@id/add_budget_edit"
+            android:layout_below="@id/cummulative_textview"
             android:id="@+id/cummu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -176,11 +188,61 @@
             android:layout_below="@id/no_of_students_textview"
 
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENTER PRICE PER KG RICE (Rs) :"
+            android:layout_below="@id/no_of_students_editview"
+            android:padding="15dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            android:id="@+id/price_per_kg_text"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="6.83"
+            android:padding="15dp"
+            android:id="@+id/price_per_kg_edit"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            android:layout_below="@id/price_per_kg_text"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ENTER AMOUNT PER PERSON (kg) :"
+            android:layout_below="@id/price_per_kg_edit"
+            android:padding="15dp"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            android:id="@+id/amt_pp_text"
+            />
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.150"
+            android:padding="15dp"
+            android:id="@+id/amt_pp_edit"
+            android:inputType="number"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:textColor="#70f"
+            android:layout_below="@id/amt_pp_text"
+
+            />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Update!!"
-            android:layout_below="@id/no_of_students_editview"
+            android:layout_below="@id/amt_pp_edit"
             android:layout_centerHorizontal="true"
             android:layout_margin="20dp"
             android:textSize="20sp"

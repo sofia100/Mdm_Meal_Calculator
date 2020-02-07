@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,20 +35,32 @@ public class MainActivity extends AppCompatActivity {
 
 
 TextView amount, budget,cummu;
-ImageButton add_amount, add_budget;
+ImageButton add_amount, add_budget,minus_amt,minus_budget;
 Button update,ok_amt,ok_budget,export;
-EditText students, add_amt_text, add_bdgt_text;
+EditText e1,e2,students, add_amt_text, add_bdgt_text;
     FirebaseDatabase database;
     DatabaseReference refAmount, refBudget,refCummu, refRow;
-double unit_budget=6.83;
-double unit_amount = 0.15;
+double unit_budget;
+double unit_amount;
     StringBuilder data ;
 Row row;
-    private TextView dateTimeDisplay;
-    private Calendar calendar;
-    private SimpleDateFormat dateFormat;
-    private Date date;
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.set_amount:
+                //dialog or intent
+                return true;
+            // Respond to a click on the "Delete all entries" menu option
+            case R.id.set_price:
+
+                return true;
+            //       return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +69,8 @@ Row row;
         data= new StringBuilder();
 
         export=findViewById(R.id.export);
+        minus_amt=findViewById(R.id.minus_amount);
+        minus_budget=findViewById(R.id.minus_budget);
         amount = findViewById(R.id.amt);
         budget = findViewById(R.id.budget);
         add_amount = findViewById(R.id.add_amount);
@@ -63,6 +82,9 @@ Row row;
         ok_amt=findViewById(R.id.ok_amt);
         ok_budget=findViewById(R.id.ok_budget);
         cummu = findViewById(R.id.cummu);
+         e1=findViewById(R.id.amt_pp_edit);
+         e2=findViewById(R.id.price_per_kg_edit);
+
 
         row = new Row();
 
@@ -78,10 +100,14 @@ Row row;
 
         add_amount.setOnClickListener(new View.OnClickListener() {
 
+
             @Override
             public void onClick(View view) {
                 add_amt_text.setVisibility(View.VISIBLE);
+                add_amt_text.setText("");
+                add_amt_text.setHint("Add amount");
                 ok_amt.setVisibility(View.VISIBLE);
+
                 ok_amt.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -107,6 +133,8 @@ Row row;
             @Override
             public void onClick(View view) {
                 add_bdgt_text.setVisibility(View.VISIBLE);
+                add_bdgt_text.setText("");
+                add_bdgt_text.setHint("Add Budget");
                 ok_budget.setVisibility(View.VISIBLE);
                 ok_budget.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -116,6 +144,60 @@ Row row;
                         double x = Double.valueOf(s);
 
                         double total = Double.valueOf(budget.getText().toString())+x;
+
+                        refBudget.setValue(total);
+                        updateValues();
+
+                        add_bdgt_text.setVisibility(View.GONE);
+                        ok_budget.setVisibility(View.GONE);
+                    }
+                });
+            }
+        });
+        minus_amt.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                add_amt_text.setVisibility(View.VISIBLE);
+                add_amt_text.setText("");
+                add_amt_text.setHint("Subtract amount");
+                ok_amt.setVisibility(View.VISIBLE);
+                ok_amt.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //extract from edittext n upload to db added value n gone visibility
+
+                        String s= add_amt_text.getText().toString();
+                        double x = Double.valueOf(s);
+
+                        Double total = Double.valueOf(amount.getText().toString())-x;
+
+                        refAmount.setValue(total);
+                        updateValues();
+
+                        add_amt_text.setVisibility(View.GONE);
+                        ok_amt.setVisibility(View.GONE);
+
+                    }
+                });
+            }
+        });
+
+        minus_budget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                add_bdgt_text.setVisibility(View.VISIBLE);
+                add_bdgt_text.setText("");
+                add_bdgt_text.setHint("Subtract budget");
+                ok_budget.setVisibility(View.VISIBLE);
+                ok_budget.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //extract from edittext n upload to db added value n gone visibility
+                        String s= add_bdgt_text.getText().toString();
+                        double x = Double.valueOf(s);
+
+                        double total = Double.valueOf(budget.getText().toString())- x;
 
                         refBudget.setValue(total);
                         updateValues();
@@ -147,6 +229,7 @@ Row row;
                     n= Integer.valueOf(students.getText().toString());
 
                 row.setStudents(n);
+                Log.d("update", "unit price "+unit_budget+"unit amount"+unit_amount+"no.of students"+n);
 
                 Log.d("update", "here ert");
 //                caln haba amt n budget n upload
@@ -187,6 +270,13 @@ Row row;
         }
         );
 
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu options from the res/menu/setting.xml file.
+        // This adds menu items to the app bar.
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return true;
     }
 
     private void exportcsv() {
@@ -251,6 +341,9 @@ Row row;
             }
 
     private void updateValues() {
+
+        unit_amount=Double.parseDouble(e1.getText().toString());
+        unit_budget=Double.parseDouble(e2.getText().toString());
 
         refAmount.addValueEventListener(new ValueEventListener() {
             @Override
